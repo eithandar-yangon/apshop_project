@@ -39,7 +39,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $page = end($link_array);
     ?>
 
-  <?php if ($page != 'order_list.php' && $page != 'weekly_report.php' && $page != 'monthly_report.php' && $page != 'royal_user.php' && $page != 'best_seller.php') {?>
+  <?php if ($page != 'order_list.php' && $page != 'order_detail.php') {?>
       <form class="form-inline ml-3" method="post"
       <?php if($page == 'index.php') :?>
         action="index.php"

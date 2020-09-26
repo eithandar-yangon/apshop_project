@@ -1,5 +1,3 @@
-<?php include('header.php') ?>
-
 <?php
 require 'config/config.php';
 require 'config/common.php';
@@ -11,6 +9,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 // print_r($_SESSION['cart']['$id']);exit;
 
 ?>
+<?php include('header.php') ?>
 <!--================Single Product Area =================-->
 
 <div class="product_image_area" style="padding-top:0px !important">

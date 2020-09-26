@@ -169,7 +169,7 @@ if($_POST){
 								<p style="color:red;float: left;"><?php echo empty($emailError) ? '': '*'. $emailError  ?></p>
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" style="<?php echo empty($passwordError) ? '': 'border-bottom:1px solid red';  ?>">
+								<input type="password" class="form-control" id="name" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" style="<?php echo empty($passwordError) ? '': 'border-bottom:1px solid red';  ?>">
 								<p style="color:red;float: left;"><?php echo empty($passwordError) ? '': '*'. $passwordError  ?></p>
 							</div>
 							<div class="col-md-12 form-group">

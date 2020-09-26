@@ -3,6 +3,10 @@ session_start();
 require 'config/config.php';
 require 'config/common.php';
 
+if(empty($_SESSION['user_id'])&& empty($_SESSION['logged_in'])){
+                        header('location:login.php');
+                    }
+
  ?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -190,7 +194,7 @@ require 'config/common.php';
                                 <td>
                                     <div class="checkout_btn_inner d-flex align-items-center">
                                         <a class="gray_btn" href="#" width="200">Clear</a>
-                                        <a class="primary-btn" href="#">Continue Shopping</a>
+                                        <a class="primary-btn" href="index.php">Continue Shopping</a>
                                         <a class="gray_btn" href="sale_order.php">Submit</a>
                                     </div>
                                 </td>

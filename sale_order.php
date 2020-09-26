@@ -3,6 +3,10 @@ session_start();
 require 'config/config.php';
 require 'config/common.php';
 
+if(empty($_SESSION['user_id'])&& empty($_SESSION['logged_in'])){
+						header('location:login.php');
+					}
+
 if(!empty($_SESSION['cart'])){
 	$userId = $_SESSION['user_id'];
 $total = 0;

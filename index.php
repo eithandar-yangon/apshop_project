@@ -1,11 +1,18 @@
-<?php include('header.php'); ?>
-				<?php
-
-					if(session_status()==PHP_SESSION_NONE){
+<?php 
+if(session_status()==PHP_SESSION_NONE){
 						session_start();
 					}
 					require 'config/config.php';
 					require 'config/common.php';
+
+					include('header.php'); 
+				
+
+					
+
+					if(empty($_SESSION['user_id'])&& empty($_SESSION['logged_in'])){
+						header('location:login.php');
+					}
 					if (!empty($_GET['pageno'])) {
 						$pageno = $_GET['pageno'];
 					}else{

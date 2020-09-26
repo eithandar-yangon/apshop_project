@@ -2,13 +2,17 @@
 
 <?php
 require 'config/config.php';
+require 'config/common.php';
 
 $stmt = $pdo->prepare("SELECT * FROM products WHERE id=".$_GET['id']);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// print_r($_SESSION['cart']['$id']);exit;
+
 ?>
 <!--================Single Product Area =================-->
+
 <div class="product_image_area" style="padding-top:0px !important">
   <div class="container">
     <div class="row s_product_inner">
@@ -19,12 +23,12 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
       </div>
       <div class="col-lg-5 offset-lg-1">
         <div class="s_product_text">
-          <h3><?php echo escape($result['name'])?></h3>
-          <h2><?php echo escape($result['price'])?></h2>
+          <h3><?php echo escape($result['name']);?></h3>
+          <h2><?php echo escape($result['price']);?></h2>
           <ul class="list">
             <li><a href="#"><span>Availibility</span> : In Stock</a></li>
           </ul>
-          <p><?php echo escape($result['description'])?></p>
+          <p><?php echo escape($result['description']);?></p>
           <form action="addtocart.php" method="post">
             <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
             <input type="hidden" name="id" value="<?php echo escape($result['id'])?>">
@@ -42,11 +46,11 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
             </div>
           </form>
         </div>
-      </div>
-    </div>
+      </div> <!-- 2 -->
+    </div> <!-- 1 -->
   </div>
 </div><br>
 <!--================End Single Product Area =================-->
 
 <!--================End Product Description Area =================-->
-<?php include('footer.php');?>
+<?php include('footer.php')?>

@@ -1,10 +1,8 @@
 <?php 
 if(session_status()==PHP_SESSION_NONE){
 						session_start();
-					}
-					if(empty($_SESSION['user_id'])&& empty($_SESSION['logged_in'])){
-						header('location:login.php');
-					}
+}
+
  ?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -23,7 +21,7 @@ if(session_status()==PHP_SESSION_NONE){
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-	<title>Karma Shop</title>
+	<title>AP Shop</title>
 
 	<!--
             CSS
@@ -92,7 +90,7 @@ if(session_status()==PHP_SESSION_NONE){
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Welcome <span style="font-size: 30px;font-weight: 300;color: brown;text-transform: uppercase;"><?php echo escape($_SESSION['name']) ?></span></h1>
+					<h1>Welcome</h1>
 					<a href="logout.php" type="button" class="primary-btn" style="line-height: 40px;border-radius: 10px;background:brown;float: right;" >Logout</a>
 				</div>
 			</div>

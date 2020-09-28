@@ -4,16 +4,25 @@ require '../config/config.php';
 require '../config/common.php';
 
 if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
-  header('Location: login.php');
+  header('Location: /apshop/admin/login.php');
+}
+if($_SESSION['role'] != 1){
+  header('Location: /apshop/admin/login.php');
 }
 
 if ($_POST) {
-  if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['password']) || strlen($_POST['password']) < 4) {
+  if (empty($_POST['name']) || empty($_POST['email']) ||empty($_POST['phone']) ||empty($_POST['address']) || empty($_POST['password']) || strlen($_POST['password']) < 4) {
     if (empty($_POST['name'])) {
       $nameError = 'Name cannot be null';
     }
     if (empty($_POST['email'])) {
       $emailError = 'Email cannot be null';
+    }
+    if (empty($_POST['phone'])) {
+      $phoneError = 'Phone cannot be null';
+    }
+    if (empty($_POST['address'])) {
+      $addressError = 'Address cannot be null';
     }
     if (empty($_POST['password'])) {
       $passwordError = 'Password cannot be null';
@@ -24,6 +33,8 @@ if ($_POST) {
   }else{
     $name = $_POST['name'];
     $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
     $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
 
     if (empty($_POST['role'])) {
@@ -41,9 +52,9 @@ if ($_POST) {
     if ($user) {
       echo "<script>alert('Email duplicated')</script>";
     }else{
-      $stmt = $pdo->prepare("INSERT INTO users(name,email,password,role) VALUES (:name,:email,:password,:role)");
+      $stmt = $pdo->prepare("INSERT INTO users(name,email,phone,password,address,role) VALUES (:name,:email,:phone,:password,:address,:role)");
       $result = $stmt->execute(
-          array(':name'=>$name,':email'=>$email,':password'=>$password,':role'=>$role)
+          array(':name'=>$name,':email'=>$email,':phone'=>$phone,':password'=>$password,':address'=>$address,':role'=>$role)
       );
       if ($result) {
         echo "<script>alert('Successfully added');window.location.href='user_list.php';</script>";
@@ -76,7 +87,15 @@ if ($_POST) {
                   </div>
                   <div class="form-group">
                     <label for="">Password</label><p style="color:red"><?php echo empty($passwordError) ? '' : '*'.$passwordError; ?></p>
-                    <input type="password" name="password" class="form-control">
+                    <input type="password" class="form-control" name="password" value="">
+                  </div>
+                  <div class="form-group">
+                    <label for="">Phone</label><p style="color:red"><?php echo empty($phoneError) ? '' : '*'.$phoneError; ?></p>
+                    <input type="number" class="form-control" name="phone" value="">
+                  </div>
+                  <div class="form-group">
+                    <label for="">Address</label><p style="color:red"><?php echo empty($addressError) ? '' : '*'.$addressError; ?></p>
+                    <textarea name="address" class="form-control"></textarea>
                   </div>
                   <div class="form-group">
                     <label for="vehicle3"> Admin</label><br>
@@ -96,4 +115,4 @@ if ($_POST) {
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
-  <?php include('footer.html')?>
+  <?php include('footer.php')?>

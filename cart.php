@@ -4,7 +4,7 @@ require 'config/config.php';
 require 'config/common.php';
 
 if(empty($_SESSION['user_id'])&& empty($_SESSION['logged_in'])){
-                        header('location:login.php');
+                        header('location:/apshop/login.php');
                     }
 
  ?>
@@ -115,9 +115,10 @@ if(empty($_SESSION['user_id'])&& empty($_SESSION['logged_in'])){
                         <tbody>
                             <?php 
                             $total = 0;
-                            foreach ($_SESSION['cart'] as $id => $qty) :
+                            foreach ($_SESSION['cart'] as $key => $qty) :
                                 
                                // print_r($_SESSION['cart']);exit();
+                                $id = str_replace('id', '', $key);
                                $stmt =$pdo->prepare("SELECT * FROM products WHERE id=".$id);
                                $stmt->execute();
                                $result = $stmt->fetch(PDO::FETCH_ASSOC);

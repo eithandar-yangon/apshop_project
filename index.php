@@ -1,3 +1,11 @@
+<?php if(isset($_POST['search'])){
+  setcookie('search',$_POST['search'],time()  +  (86400), "/");
+}else{
+  if(empty($_GET['pageno'])){
+    unset($_COOKIE['search']);
+    setcookie('search',null,-1,'/');
+  }
+} ?>
 <?php 
 if(session_status()==PHP_SESSION_NONE){
 						session_start();
@@ -5,14 +13,13 @@ if(session_status()==PHP_SESSION_NONE){
 					require 'config/config.php';
 					require 'config/common.php';
 
-					include('header.php'); 
-				
-
 					
+					 if(empty($_SESSION['user_id'])&& empty($_SESSION['logged_in'])){
+					 	header('location:/apshop/login.php');
+					 }
 
-					if(empty($_SESSION['user_id'])&& empty($_SESSION['logged_in'])){
-						header('location:login.php');
-					}
+
+
 					if (!empty($_GET['pageno'])) {
 						$pageno = $_GET['pageno'];
 					}else{
@@ -22,7 +29,7 @@ if(session_status()==PHP_SESSION_NONE){
 					$numOfrecs = 6;
 					$offset = ($pageno - 1) * $numOfrecs;
 
-					if (empty($_POST['search'])) {
+					if (empty($_POST['search']) && empty($_COOKIE['search'])) {
 						if (!empty($_GET['category_id'])) {
 							$categoryId = $_GET['category_id'];
 							$stmt = $pdo->prepare("SELECT * FROM products WHERE category_id=$categoryId AND quantity > 0 ORDER BY id DESC");
@@ -47,7 +54,7 @@ if(session_status()==PHP_SESSION_NONE){
 						}
 
 					}else{
-						$searchKey = $_POST['search'];
+						$searchKey = isset($_POST['search']) ? $_POST['search'] : $_COOKIE['search'] ;
 						$stmt = $pdo->prepare("SELECT * FROM products WHERE name LIKE '%$searchKey%' AND quantity > 0 ORDER BY id DESC");
 						$stmt->execute();
 						$rawResult = $stmt->fetchAll();
@@ -59,7 +66,7 @@ if(session_status()==PHP_SESSION_NONE){
 						$result = $stmt->fetchAll();
 					}
 
-				?>
+				?><?php include('header.php');  ?>
 				<div class="container">
 					<div class="row">
 						<div class="col-xl-3 col-lg-4 col-md-5">

@@ -5,10 +5,7 @@ require '../config/common.php';
 
 
 if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
-  header('Location: /apshop/admin/login.php');
-}
-if($_SESSION['role'] != 1){
-  header('Location: /apshop/admin/login.php');
+ header('Location: /apshop/admin/login.php');
 }
 
 ?>
@@ -26,7 +23,7 @@ if($_SESSION['role'] != 1){
               </div>
               <?php
                 $currentDate = date("Y-m-d");
-                $stmt = $pdo->prepare("SELECT * FROM sale_order WHERE total_price>=20000 group by user_id ORDER BY id DESC");
+                $stmt = $pdo->prepare("SELECT * FROM sale_order_detail GROUP BY product_id HAVING SUM(quantity) > 5 ORDER BY id DESC");
                 $stmt->execute();
                 $result = $stmt->fetchAll();
               ?>
@@ -36,9 +33,7 @@ if($_SESSION['role'] != 1){
                   <thead>
                     <tr>
                       <th style="width: 10px">#</th>
-                      <th>User Name</th>
-                      <th>Total Amount</th>
-                      <th>Order Date</th>
+                      <th>Product Name</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -48,15 +43,13 @@ if($_SESSION['role'] != 1){
                       foreach ($result as $value) { ?>
 
                         <?php
-                          $userStmt = $pdo->prepare("SELECT * FROM users WHERE id=".$value['user_id']);
-                          $userStmt->execute();
-                          $userResult = $userStmt->fetch(PDO::FETCH_ASSOC);
+                          $pStmt = $pdo->prepare("SELECT * FROM products WHERE id=".$value['product_id']);
+                          $pStmt->execute();
+                          $pResult = $pStmt->fetch(PDO::FETCH_ASSOC);
                         ?>
                         <tr>
                           <td><?php echo $i;?></td>
-                          <td><?php echo escape($userResult['name'])?></td>
-                          <td><?php echo escape($value['total_price'])?></td>
-                          <td><?php echo escape(date("Y-m-d",strtotime($value['order_date'])))?></td>
+                          <td><?php echo escape($pResult['name'])?></td>
                         </tr>
                     <?php
                       $i++;

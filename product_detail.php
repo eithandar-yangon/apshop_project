@@ -2,11 +2,15 @@
 require 'config/config.php';
 require 'config/common.php';
 
+ if(empty($_SESSION['user_id'])&& empty($_SESSION['logged_in'])){
+            header('location:/apshop/login.php');
+           }
+
 $stmt = $pdo->prepare("SELECT * FROM products WHERE id=".$_GET['id']);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// print_r($_SESSION['cart']['$id']);exit;
+
 
 ?>
 <?php include('header.php') ?>

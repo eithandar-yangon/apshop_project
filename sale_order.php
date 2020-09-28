@@ -9,9 +9,11 @@ if(empty($_SESSION['user_id'])&& empty($_SESSION['logged_in'])){
 
 if(!empty($_SESSION['cart'])){
 	$userId = $_SESSION['user_id'];
+
 $total = 0;
 
-foreach ($_SESSION['cart'] as $id => $qty) {
+foreach ($_SESSION['cart'] as $key => $qty) {
+	$id = str_replace('id', '', $key);
 	$stmt = $pdo->prepare("SELECT * FROM products WHERE id=".$id);
 	$stmt->execute();
 	$result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -20,17 +22,18 @@ foreach ($_SESSION['cart'] as $id => $qty) {
 
 $stmt = $pdo->prepare("INSERT INTO sale_order(user_id,total_price,order_date) VALUES(:user_id,:total_price,:order_date)");
 $result = $stmt->execute(
-	array(':user_id' => $userId, ':total_price'=>$total, ':order_date'=>date('Y-m-d') )
+	array(':user_id' => $userId, ':total_price'=>$total, ':order_date'=>date("Y-m-d") )
 );
 
 if($result){
 	$saleorderId = $pdo->lastInsertId();
 
-	foreach ($_SESSION['cart'] as $id => $qty) {
-	$stmt = $pdo->prepare("INSERT INTO sale_order_detail(sale_order_id,product_id,quantity) VALUES(:sale_order_id,:product_id,:quantity)");
-$result = $stmt->execute(
+	foreach ($_SESSION['cart'] as $key => $qty) {
+		$id = str_replace('id', '', $key);
+		$stmt = $pdo->prepare("INSERT INTO sale_order_detail(sale_order_id,product_id,quantity) VALUES(:sale_order_id,:product_id,:quantity)");
+	$result = $stmt->execute(
 	array(':sale_order_id' => $saleorderId, ':product_id'=>$id, ':quantity'=>$qty) 
-);
+	);
 
 	$stmtqty = $pdo->prepare("SELECT quantity FROM products WHERE id=".$id);
 	$stmtqty->execute();

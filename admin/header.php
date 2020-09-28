@@ -17,7 +17,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-  <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+
 
 </head>
 <body class="hold-transition sidebar-mini">
@@ -39,14 +40,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         $page = end($link_array);
     ?>
 
-  <?php if ($page != 'order_list.php' && $page != 'order_detail.php') {?>
+  <?php if ($page != 'order_list.php' && $page != 'order_detail.php' && $page != 'weekly_report.php' && $page != 'monthly_report.php' && $page != 'royal_user.php') {?>
       <form class="form-inline ml-3" method="post"
       <?php if($page == 'index.php') :?>
         action="index.php"
       <?php elseif($page == 'category.php'):?>
         action="category.php"
       <?php elseif($page == 'user_list.php'):?>
-        action="user_listing.php"
+        action="user_list.php"
       <?php endif;?>
       >
         <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
@@ -172,3 +173,4 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     </div>
     <!-- /.content-header -->
+

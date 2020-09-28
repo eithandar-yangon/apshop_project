@@ -5,9 +5,11 @@ require '../config/common.php';
 
 
 if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
-  header('Location: login.php');
+  header('Location: /apshop/admin/login.php');
 }
-
+if($_SESSION['role'] != 1){
+  header('Location: /apshop/admin/login.php');
+}
 ?>
 
 
@@ -40,7 +42,8 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
                 $stmt = $pdo->prepare("SELECT * FROM sale_order ORDER BY id DESC LIMIT $offset,$numOfrecs");
                 $stmt->execute();
                 $result = $stmt->fetchAll();
-                
+
+
 
               ?>
               <!-- /.card-header -->
@@ -68,6 +71,8 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
                         $userstmt= $pdo->prepare("SELECT * FROM users WHERE id=".$value['user_id']);
                         $userstmt->execute();
                         $userResult = $userstmt->fetchAll();
+                        // print "<pre>";
+                        // print_r($userResult);exit();
                          ?>
                         <tr>
                           <td><?php echo $i;?></td>
@@ -114,4 +119,4 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
-  <?php include('footer.html')?>
+  <?php include('footer.php')?>

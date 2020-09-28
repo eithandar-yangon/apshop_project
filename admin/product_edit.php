@@ -5,9 +5,12 @@ require 'config/common.php';
 
 
 if(empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])){
-	header('location:login.php');
+	header('Location: /apshop/admin/login.php');
 }
 
+if($_SESSION['role'] != 1){
+  header('Location: /apshop/admin/login.php');
+}
 
 if($_POST){
 	if(empty($_POST['name']) || empty($_POST['description']) || empty($_POST['category']) || empty($_POST['stock']) || empty($_POST['price']) || empty($_FILES['image'])){
@@ -164,4 +167,4 @@ $result = $stmt->fetchAll();
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
-  <?php include('footer.html')?>
+  <?php include('footer.php')?>

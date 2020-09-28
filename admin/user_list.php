@@ -4,9 +4,19 @@ require '../config/config.php';
 require '../config/common.php';
 
 if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
-  header('Location: login.php');
+  header('Location: /apshop/admin/login.php');
 }
-
+if($_SESSION['role'] != 1){
+  header('Location: /apshop/admin/login.php');
+}
+if(isset($_POST['search'])){
+  setcookie('search',$_POST['search'],time() + (86400), "/");
+}else{
+  if(empty($_GET['pageno'])){
+    unset($_COOKIE['search']);
+    setcookie('search',null,-1,'/');
+  }
+}
 ?>
 
 
@@ -30,7 +40,7 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
                 $numOfrecs = 5;
                 $offset = ($pageno - 1) * $numOfrecs;
 
-                if (empty($_POST['search'])) {
+                if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                   $stmt = $pdo->prepare("SELECT * FROM users ORDER BY id DESC");
                   $stmt->execute();
                   $rawResult = $stmt->fetchAll();
@@ -41,7 +51,7 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
                   $stmt->execute();
                   $result = $stmt->fetchAll();
                 }else{
-                  $searchKey = $_POST['search'];
+                  $searchKey = isset($_POST['search']) ? $_POST['search'] : $_COOKIE['search'] ;
                   $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE '%$searchKey%' ORDER BY id DESC");
                   $stmt->execute();
                   $rawResult = $stmt->fetchAll();
@@ -124,4 +134,4 @@ if (empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
-  <?php include('footer.html')?>
+  <?php include('footer.php')?>
